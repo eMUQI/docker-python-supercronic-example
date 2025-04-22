@@ -1,0 +1,16 @@
+services:
+  python-cron:
+    build: .
+    container_name: my_python_cron_job
+    env_file:
+      - .env
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
+      - CRON_SCHEDULE=* * * * * # Example: Run every hour at minute 0
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep supercronic || exit 1"]
+      interval: 2m
+      timeout: 5s
+      retries: 3
+      start_period: 10s 
